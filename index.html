@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diwali Diya Puzzle · Bal Vihar</title>
+<style>
+:root{--bg:#FFF6E3;--tx:#2B2050;--card:#FFFDF6;--bd:#E8D9B5;--acc:#F2A93B;--sub:#6A5F8F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1B1438;--tx:#FFF6E3;--card:#2B2050;--bd:#4A3C7A;--sub:#B9AEE0}}
+:root[data-theme="dark"]{--bg:#1B1438;--tx:#FFF6E3;--card:#2B2050;--bd:#4A3C7A;--sub:#B9AEE0}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Trebuchet MS","Segoe UI",Verdana,sans-serif;line-height:1.4}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;flex-wrap:wrap}
+h1{font-size:22px;margin:0}h2{font-size:20px;margin:0 0 8px}
+a{color:var(--sub)}
+main{max-width:520px;margin:0 auto;padding:0 14px 32px}
+#teacher{max-width:760px}
+.card{background:var(--card);border:2px solid var(--bd);border-radius:20px;padding:18px;margin-bottom:14px}
+label{display:block;font-size:14px;margin:12px 0 4px;color:var(--sub)}
+input,select,textarea{width:100%;font:inherit;font-size:16px;padding:10px 12px;border-radius:12px;border:2px solid var(--bd);background:var(--bg);color:var(--tx)}
+textarea{min-height:90px}
+button{font:inherit;font-size:16px;font-weight:700;padding:12px 18px;border:0;border-radius:14px;background:var(--acc);color:#2B2050;cursor:pointer;margin-top:12px}
+button.alt{background:var(--bd);color:var(--tx)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #4A9BD9;outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{padding:4px 10px;border-radius:999px;font-size:13px;font-weight:700;color:#fff}
+.bar{display:flex;align-items:center;gap:10px;font-size:14px;margin:4px 0 8px;flex-wrap:wrap}
+.prog{flex:1;min-width:90px;height:12px;background:var(--bd);border-radius:6px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#F2A93B,#E2586A);transition:width .3s}
+#boardwrap svg{display:block;width:100%;max-height:80vh;touch-action:none;user-select:none;-webkit-user-select:none}
+.pc{cursor:grab;transition:transform .28s ease}
+.pc.drag{transition:none;cursor:grabbing}
+.pc.ok{cursor:default}
+.hl{min-height:52px;font-size:17px;text-align:center;margin:10px 0}
+.code{font-family:Consolas,Menlo,monospace;background:var(--bg);border:2px dashed var(--acc);border-radius:12px;padding:10px;word-break:break-word;user-select:all;font-size:15px}
+#halo{opacity:0;transition:opacity 1.2s;transform-box:fill-box;transform-origin:center}
+.lit #halo{opacity:1;animation:pu 2.4s ease-in-out infinite alternate}
+@keyframes pu{from{transform:scale(.92)}to{transform:scale(1.07)}}
+.fl{transform-box:fill-box;transform-origin:50% 100%}
+.lit .fl{animation:fk .45s ease-in-out infinite alternate}
+@keyframes fk{from{transform:scale(1,1) rotate(-2deg)}to{transform:scale(1.14,1.22) rotate(2deg)}}
+.beam{opacity:0;transition:opacity 1s}.lit .beam{opacity:.55}
+.lit .tok{filter:url(#gl)}.tok.hot rect{stroke:#FFD25A;stroke-width:5}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px;margin:12px 0}
+.lamp{background:var(--bg);border:2px solid var(--bd);border-radius:16px;padding:8px 4px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px}
+.lamp.on{border-color:var(--acc);box-shadow:0 0 14px #F2A93B88}
+.lamp small{color:var(--sub)}
+.say{background:#DDF0EC;color:#1B2A6B;border-radius:14px;padding:12px;margin:10px 0;font-weight:700;animation:pop .5s}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><h1>🪔 Diwali Diya Puzzle</h1><a href="#teacher" id="tl">Teacher board</a></header>
+<main>
+<section id="start" class="card">
+<h2>Welcome, young lamp-lighter!</h2>
+<p>Drag every piece to its dashed spot to build the diya. When all seven pieces fit, your diya glows and its five rays shine with the values from the Bhagavad Gita.</p>
+<div class="chips"><span style="background:#E2586A">Ahimsa</span><span style="background:#B87A0E">Adambhitvam</span><span style="background:#3F8FD2">Amanitvam</span><span style="background:#3E8E3E">Kshantir</span><span style="background:#8A55CC">Arjavam</span></div>
+<label for="nm">Your first name</label><input id="nm" maxlength="12" autocomplete="off" placeholder="For example: Ananya">
+<label for="lv">Level</label><select id="lv"><option value="easy">Easy: match the colors</option><option value="hard">Challenge: match by meaning</option></select>
+<button id="go">Start the puzzle</button>
+</section>
+
+<section id="game" hidden>
+<div class="bar"><div class="prog"><i id="pf"></i></div><span id="pt">0/7 placed</span><span id="tm">0:00</span><span id="ms">Slips: 0</span></div>
+<div id="boardwrap"></div>
+<p class="hl" id="hl">Drag the pieces up to the dashed spots.</p>
+<div id="done" class="card" hidden></div>
+</section>
+
+<section id="teacher" hidden>
+<div class="card">
+<h2>Teacher board</h2>
+<p id="count" style="font-size:18px;font-weight:700"></p>
+<div id="say"></div>
+<div class="grid" id="lamps"></div>
+<label for="paste">Paste students’ messages or codes here (several at once is fine)</label>
+<textarea id="paste" placeholder="🪔 Ananya lit the Diwali diya in 2:41! Code: ANANYA-161-K3QX"></textarea>
+<button id="addc">Add to board</button>
+<p id="fb" style="color:var(--sub)"></p>
+<label for="roster">Class list (optional, separate names with commas)</label>
+<textarea id="roster"></textarea>
+<button id="setr" class="alt">Save class list</button> <button id="rst" class="alt">Clear board</button>
+<p style="font-size:13px;color:var(--sub)">Each student’s result stays on their own device, so ask them to post their message in the class chat. Paste it here and their lamp lights up.</p>
+</div>
+<a href="#" id="back">Back to the puzzle</a>
+</section>
+</main>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+const V=[
+{k:'ahimsa',n:'Ahimsa',c:'#D6455D',t:'#fff',x:200,y:110,h:['Hurt no one in','thought or deed'],l:'Hurt no one in thought, word or deed.'},
+{k:'adam',n:'Adambhitvam',c:'#F2A93B',t:'#2B2050',x:100,y:185,h:['Be real,','not a show'],l:'Be real, not a show. You don’t need to pretend.'},
+{k:'aman',n:'Amanitvam',c:'#3F8FD2',t:'#fff',x:300,y:185,h:['Humble: no need','for praise'],l:'Be humble. You don’t need praise to feel worthy.'},
+{k:'ksh',n:'Kshantir',c:'#3E8E3E',t:'#fff',x:62,y:265,h:['Stay calm and','patient'],l:'Stay calm and patient when things are hard.'},
+{k:'arj',n:'Arjavam',c:'#8A55CC',t:'#fff',x:338,y:265,h:['Honest and','straightforward'],l:'Be honest and straightforward in what you say and do.'}];
+const FL={id:'flame',x:200,y:292},BW={id:'bowl',x:200,y:345};
+const SL=[...V.map(v=>({id:v.k,x:v.x,y:v.y})),FL,BW];
+const FLAME='M0 -34 C18 -12 20 10 0 22 C-20 10 -18 -12 0 -34Z';
+const BOWL='M-84 -18 C-70 40 -30 58 0 58 C30 58 70 40 84 -18 Q0 -4 -84 -18Z';
+const HOME=[[70,472],[200,472],[330,472],[125,537],[275,537]],HOME2=[[100,622],[290,622]];
+const mmss=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+const clean=s=>s.replace(/[^\p{L}\p{N} '’-]/gu,'').trim().slice(0,12);
+const key=n=>n.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,10);
+const ck=s=>{let h=7;for(const c of s+'D26')h=(h*31+c.charCodeAt(0))%1679616;return h.toString(36).toUpperCase().padStart(4,'0')};
+const sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const store=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
+let ac;const tone=(f,d=.12,t=0)=>{try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain(),n=ac.currentTime+t;o.frequency.value=f;g.gain.setValueAtTime(.12,n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g);g.connect(ac.destination);o.start(n);o.stop(n+d)}catch(e){}};
+let S={on:0};
+
+function build(){
+ const hard=S.lv==='hard';
+ const beams=V.map((v,i)=>{const dx=v.x-FL.x,dy=v.y-FL.y,L=Math.hypot(dx,dy),nx=-dy/L,ny=dx/L;
+  const p=[[FL.x+nx*4,FL.y+ny*4],[FL.x-nx*4,FL.y-ny*4],[v.x-nx*30,v.y-ny*30],[v.x+nx*30,v.y+ny*30]].map(q=>q.map(n=>n.toFixed(1)).join(',')).join(' ');
+  return `<polygon class="beam" points="${p}" fill="${v.c}" style="transition-delay:${i*.35}s"/>`}).join('');
+ const slots=V.map(v=>`<g transform="translate(${v.x},${v.y})"><rect x="-60" y="-26" width="120" height="52" rx="16" fill="none" stroke="${hard?'#8E86B8':v.c}" stroke-width="2.5" stroke-dasharray="7 5"/><text text-anchor="middle" font-size="13" fill="#DCD5F5"><tspan x="0" y="-3">${v.h[0]}</tspan><tspan x="0" y="13">${v.h[1]}</tspan></text></g>`).join('')
+  +`<g transform="translate(${FL.x},${FL.y})" opacity=".6" fill="none" stroke="#FFD25A" stroke-width="2.5" stroke-dasharray="6 4"><path d="${FLAME}"/></g><g transform="translate(${BW.x},${BW.y})" opacity=".6" fill="none" stroke="#E07B3A" stroke-width="2.5" stroke-dasharray="6 4"><path d="${BOWL}"/></g>`;
+ const tok=v=>`<rect x="-56" y="-22" width="112" height="44" rx="22" fill="${v.c}" stroke="#fff" stroke-width="2.5"/><text y="6" text-anchor="middle" font-size="16" font-weight="700" fill="${v.t}">${v.n}</text>`;
+ const items=[...V.map(v=>({id:v.k,cls:'tok',svg:tok(v)})),
+  {id:'flame',cls:'',svg:`<g class="fl"><path d="${FLAME}" fill="url(#fl)"/><path d="M0 -8 C8 2 8 12 0 16 C-8 12 -8 2 0 -8Z" fill="#FFF3B0"/></g><rect x="-2" y="20" width="4" height="12" rx="2" fill="#3A2A1A"/>`},
+  {id:'bowl',cls:'',svg:`<path d="${BOWL}" fill="#C65D2B"/><ellipse cx="0" cy="-18" rx="84" ry="14" fill="#E07B3A"/><ellipse cx="0" cy="-18" rx="68" ry="8" fill="#4A1E0C"/><path d="M-58 24 Q0 46 58 24" stroke="#FFD25A" stroke-width="4" fill="none" stroke-linecap="round"/>`}];
+ sh(items.slice(0,5)).forEach((p,i)=>p.home=HOME[i]);sh(items.slice(5)).forEach((p,i)=>p.home=HOME2[i]);
+ S.items={};items.forEach(p=>{S.items[p.id]={id:p.id,x:p.home[0],y:p.home[1],home:p.home}});
+ const stars=[[30,30],[90,60],[160,24],[250,40],[320,26],[372,70],[30,150],[372,150],[20,330],[378,310]].map(s=>`<circle cx="${s[0]}" cy="${s[1]}" r="1.8" fill="#FFF3B0" opacity=".7"/>`).join('');
+ $('#boardwrap').innerHTML=`<svg id="b" viewBox="0 0 400 680" role="img" aria-label="Diya puzzle: drag the pieces into the dashed spots"><defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1438"/><stop offset="1" stop-color="#3A2066"/></linearGradient>
+<radialGradient id="ha"><stop offset="0" stop-color="#FFD25A" stop-opacity=".85"/><stop offset="1" stop-color="#FFD25A" stop-opacity="0"/></radialGradient>
+<linearGradient id="fl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#F26B1D"/><stop offset="1" stop-color="#FFD25A"/></linearGradient>
+<clipPath id="bc"><rect width="400" height="408" rx="24"/></clipPath><filter id="gl" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<rect width="400" height="408" rx="24" fill="url(#sky)"/><rect y="418" width="400" height="262" rx="24" fill="#2A2050"/>${stars}
+<text x="200" y="440" text-anchor="middle" font-size="14" fill="#B9AEE0">Drag the pieces up to the dashed spots</text>
+<g clip-path="url(#bc)"><g id="halo"><circle cx="200" cy="290" r="200" fill="url(#ha)"/></g><g>${beams}</g></g><g>${slots}</g>
+<g id="pcs">${items.map(p=>`<g class="pc ${p.cls}" data-id="${p.id}" style="transform:translate(${p.home[0]}px,${p.home[1]}px)">${p.svg}</g>`).join('')}</g></svg>`;
+ wire();
+}
+function wire(){
+ const svg=$('#b');let drag=null;
+ const P=e=>{const q=svg.createSVGPoint();q.x=e.clientX;q.y=e.clientY;return q.matrixTransform(svg.getScreenCTM().inverse())};
+ const mv=(g,p)=>g.style.transform=`translate(${p.x}px,${p.y}px)`;
+ svg.addEventListener('pointerdown',e=>{const g=e.target.closest('.pc');if(!g||g.classList.contains('ok')||S.won)return;
+  if(!S.t0){S.t0=Date.now();S.tm=setInterval(()=>$('#tm').textContent=mmss(Math.round((Date.now()-S.t0)/1000)),500)}
+  const p=S.items[g.dataset.id],q=P(e);drag={g,p,dx:p.x-q.x,dy:p.y-q.y};g.classList.add('drag');$('#pcs').appendChild(g);
+  try{g.setPointerCapture(e.pointerId)}catch(x){}e.preventDefault();tone(520,.05)});
+ svg.addEventListener('pointermove',e=>{if(!drag)return;const q=P(e);drag.p.x=q.x+drag.dx;drag.p.y=q.y+drag.dy;mv(drag.g,drag.p)});
+ const end=()=>{if(!drag)return;const{g,p}=drag;drag=null;g.classList.remove('drag');
+  const s=SL.find(o=>o.id===p.id);
+  if(Math.hypot(p.x-s.x,p.y-s.y)<46){p.x=s.x;p.y=s.y;mv(g,p);g.classList.add('ok');S.placed++;tone(600+S.placed*60,.15);prog();if(S.placed===7)win()}
+  else if(SL.some(o=>o.id!==p.id&&Math.hypot(p.x-o.x,p.y-o.y)<46)){S.slips++;$('#ms').textContent='Slips: '+S.slips;tone(160,.2);p.x=p.home[0];p.y=p.home[1];mv(g,p)}};
+ svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+}
+function prog(){$('#pf').style.width=(S.placed/7*100)+'%';$('#pt').textContent=S.placed+'/7 placed'}
+function win(){
+ S.won=1;clearInterval(S.tm);S.secs=Math.max(1,Math.round((Date.now()-S.t0)/1000));$('#b').classList.add('lit');
+ [523,659,784,1047].forEach((f,i)=>tone(f,.4,i*.18));
+ const nm=key(S.nm)||'KID',code=`${nm}-${S.secs}-${ck(nm+S.secs)}`,msg=`🪔 ${S.nm} lit the Diwali diya in ${mmss(S.secs)}! Code: ${code}`;
+ const d=$('#done');d.hidden=false;
+ d.innerHTML=`<h2>🪔 Your diya is lit, ${S.nm}!</h2><p>Time <b>${mmss(S.secs)}</b> · Slips <b>${S.slips}</b></p><p>Tell your teacher you finished: copy this message and paste it in the class chat.</p><div class="code">${msg}</div><button id="cp">Copy message</button> <button id="again" class="alt">Play again</button>`;
+ $('#cp').onclick=async()=>{try{await navigator.clipboard.writeText(msg);$('#cp').textContent='Copied ✔'}catch(e){const r=document.createRange();r.selectNodeContents(d.querySelector('.code'));const s=getSelection();s.removeAllRanges();s.addRange(r);$('#cp').textContent='Selected: now press Copy'}};
+ $('#again').onclick=()=>begin(S.nm,S.lv);
+ const b=store('diya-best');if(!b||S.secs<b.secs)store('diya-best',{secs:S.secs});
+ let i=0;setTimeout(()=>{const f=()=>{const v=V[i%5];$('#hl').innerHTML=`<b style="color:${v.c}">${v.n}</b>: ${v.l}`;
+  document.querySelectorAll('.beam').forEach((b,j)=>b.style.opacity=j===i%5?.95:.3);
+  document.querySelectorAll('.tok').forEach(t=>t.classList.toggle('hot',t.dataset.id===v.k));i++};f();S.cy=setInterval(f,2800)},2200);
+ d.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function begin(nm,lv){
+ clearInterval(S.tm);clearInterval(S.cy);
+ S={on:1,nm,lv,placed:0,slips:0,won:0};
+ $('#done').hidden=true;$('#hl').textContent='Drag the pieces up to the dashed spots.';$('#tm').textContent='0:00';$('#ms').textContent='Slips: 0';prog();build();route();
+}
+$('#go').onclick=()=>{const nm=clean($('#nm').value);if(!nm){$('#nm').focus();return}store('diya-name',nm);begin(nm,$('#lv').value)};
+$('#nm').value=store('diya-name')||'';
+
+/* ---- teacher board ---- */
+let B=store('diya-board')||{roster:[],done:{}},armed=0;
+const lamp=on=>`<svg viewBox="0 0 60 60" width="48" height="48" aria-hidden="true"><path d="M8 30 C12 50 24 54 30 54 C36 54 48 50 52 30 Q30 38 8 30Z" fill="${on?'#C65D2B':'#8E86B8'}"/>${on?'<circle cx="30" cy="14" r="14" fill="#FFD25A" opacity=".35"/><path d="M30 2 C37 12 38 22 30 28 C22 22 23 12 30 2Z" fill="#F2A93B"/>':''}</svg>`;
+function render(){
+ const names=B.roster.slice();Object.keys(B.done).forEach(k=>{if(!names.some(n=>key(n)===k))names.push(B.done[k].name)});
+ while(names.length<14)names.push('');
+ $('#lamps').innerHTML=names.map(n=>{const d=n&&B.done[key(n)];return `<div class="lamp${d?' on':''}">${lamp(!!d)}<b>${n||'·'}</b><small>${d?mmss(d.secs):'waiting'}</small></div>`}).join('');
+ $('#count').textContent=`${Object.keys(B.done).length} of ${names.length} diyas lit`;
+ $('#roster').value=B.roster.join(', ');
+}
+$('#addc').onclick=()=>{
+ let added=0,bad=0,last;
+ for(const m of $('#paste').value.toUpperCase().matchAll(/\b([A-Z0-9]{1,10})-(\d{1,4})-([A-Z0-9]{4})\b/g)){
+  if(ck(m[1]+m[2])!==m[3]){bad++;continue}
+  const k=m[1],secs=+m[2];
+  if(!B.done[k]||secs<B.done[k].secs){const isNew=!B.done[k];B.done[k]={name:B.roster.find(r=>key(r)===k)||k[0]+k.slice(1).toLowerCase(),secs};if(isNew){added++;last=B.done[k]}}
+ }
+ store('diya-board',B);render();$('#paste').value='';
+ $('#fb').textContent=bad?`${bad} code(s) looked wrong. Ask the student to copy it again.`:(added||last?'':'No new codes found.');
+ if(last){$('#say').innerHTML=`<div class="say">🪔 ${last.name} lit the diya in ${mmss(last.secs)}!${added>1?` (+${added-1} more)`:''}</div>`;[523,659,784].forEach((f,i)=>tone(f,.3,i*.15))}
+};
+$('#setr').onclick=()=>{B.roster=$('#roster').value.split(/[,\n]/).map(clean).filter(Boolean);store('diya-board',B);render()};
+$('#rst').onclick=()=>{if(!armed){armed=1;$('#rst').textContent='Tap again to clear';setTimeout(()=>{armed=0;$('#rst').textContent='Clear board'},3000)}else{B={roster:[],done:{}};store('diya-board',B);armed=0;$('#rst').textContent='Clear board';$('#say').innerHTML='';render()}};
+
+/* ---- routing ---- */
+function route(){
+ const t=location.hash==='#teacher';
+ $('#teacher').hidden=!t;$('#start').hidden=t||!!S.on;$('#game').hidden=t||!S.on;$('#tl').hidden=t;
+ if(t)render();
+}
+$('#back').onclick=e=>{e.preventDefault();history.replaceState(null,'',location.pathname+location.search);route()};
+addEventListener('hashchange',route);route();
+})();
+</script>
+</body>
+</html>
